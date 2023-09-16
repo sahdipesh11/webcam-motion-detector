@@ -2,6 +2,7 @@ import cv2
 import time
 from emailing import send_email
 import glob
+import os
 
 video = cv2.VideoCapture(1)
 # Wait 1 second for the camera to load
@@ -10,6 +11,14 @@ time.sleep(1)
 first_frame = None
 status_list = []
 count = 1
+
+
+# Function to delete all images of images folder
+def clean_folder():
+    images = glob.glob("images/*.png")
+    for image in images:
+        os.remove(image)
+
 
 while True:
     status = 0
@@ -27,7 +36,7 @@ while True:
     delta_frame = cv2.absdiff(first_frame, gray_frame_gau)
 
     # Classify deltaframe pixels (pixels with 30 or higher to 255)
-    thresh_frame = cv2.threshold(delta_frame, 60, 255, cv2.THRESH_BINARY)[1]
+    thresh_frame = cv2.threshold(delta_frame, 50, 255, cv2.THRESH_BINARY)[1]
     dil_frame = cv2.dilate(thresh_frame, None, iterations=2)
     cv2.imshow("My video", dil_frame)
 
@@ -54,6 +63,8 @@ while True:
 
     if status_list[0] == 1 and status_list[1] == 0:
         send_email(image_with_object)
+        # Delete all images in the folder after sending an email
+        clean_folder()
 
     cv2.imshow("Video", frame)
 
