@@ -14,7 +14,7 @@ status_list = []
 count = 1
 
 
-# Function to delete all images of images folder
+# Delete all images of images folder
 def clean_folder():
     print("clean_folder function started.")
     images = glob.glob("images/*.png")

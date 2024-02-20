@@ -1,14 +1,15 @@
 import smtplib
 import imghdr
 from email.message import EmailMessage
+import os
 
-PASSWORD = "mxbd pgyh zxvf hudr"
+PASSWORD = os.getenv("WEBCAM-DETECTION")
 SENDER = "tranquil3477@gmail.com"
 RECEIVER = "tranquil3477@gmail.com"
 
 
 def send_email(image_path):
-    print("send_function function started.")
+    print("send_email function started.")
     email_message = EmailMessage()
     email_message["Subject:"] = "New customer showed up"
     email_message.set_content("Hey, we just saw a new customer.")
